@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mosaic-media.github.io/mosaic-sdui/schema/uinode.schema.json",
+  "title": "UINode",
+  "description": "One element of a server-driven UI tree. The `type` is an open vocabulary: a client that does not recognise a type renders a placeholder rather than failing.",
+  "type": "object",
+  "required": ["type"],
+  "properties": {
+    "type": { "type": "string", "description": "Component discriminator, e.g. \"PosterCard\"." },
+    "id": { "type": "string" },
+    "props": { "type": "object", "additionalProperties": true, "description": "Component-specific data. Open by design." },
+    "children": { "type": "array", "items": { "$ref": "#" } },
+    "slots": {
+      "type": "object",
+      "additionalProperties": {
+        "oneOf": [{ "$ref": "#" }, { "type": "array", "items": { "$ref": "#" } }]
+      }
+    }
+  },
+  "additionalProperties": false
+}

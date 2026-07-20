@@ -1,0 +1,11 @@
+# Go
+*.exe
+*.test
+*.out
+
+# Node / TS tooling (when the ts package gains a build)
+node_modules/
+dist/
+*.tsbuildinfo
+
+.DS_Store

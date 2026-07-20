@@ -1,0 +1,12 @@
+Mosaic SDUI
+Copyright 2026 the Mosaic authors
+
+This product is licensed under the Apache License, Version 2.0. A copy of the
+license is in the LICENSE file, and at http://www.apache.org/licenses/LICENSE-2.0
+
+Mosaic SDUI is the published Server-Driven-UI contract: the schema a producer
+(the Platform, or a Module) emits and a client (the Shell, a native client)
+renders, plus the standard component-definition library and the design tokens.
+It is licensed permissively, and independently of the Platform, so a Module may
+build its UI against it under any license of the Module author's choosing —
+mirroring the SDK's role for the content contract.

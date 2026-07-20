@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mosaic-media.github.io/mosaic-sdui/schema/definition.schema.json",
+  "title": "ComponentDefinition",
+  "description": "A component expressed as data: a name, default params, and a template of primitives. Clients register definitions and expand them; this is how a module contributes a component without shipping client code.",
+  "type": "object",
+  "required": ["name", "template"],
+  "properties": {
+    "name": { "type": "string", "description": "The node type this definition provides." },
+    "params": { "type": "object", "description": "Default param values, overridden by the caller's props." },
+    "template": { "$ref": "#/$defs/templateNode" }
+  },
+  "$defs": {
+    "templateNode": {
+      "type": "object",
+      "required": ["type"],
+      "description": "A template node. Any prop value may be a literal or a binding — {\"$bind\":\"path\"} (dot paths allowed) or {\"$match\":{\"on\":…,\"cases\":{…},\"default\":…}}. Control keys inside props: $if / $ifNot (conditional render), $each + $as (repeat over an array). A node of type \"Outlet\" (optional prop \"name\") renders the caller's children or a named slot.",
+      "properties": {
+        "type": { "type": "string" },
+        "id": { "type": "string" },
+        "props": { "type": "object", "additionalProperties": true },
+        "children": { "type": "array", "items": { "$ref": "#/$defs/templateNode" } },
+        "slots": {
+          "type": "object",
+          "additionalProperties": {
+            "oneOf": [{ "$ref": "#/$defs/templateNode" }, { "type": "array", "items": { "$ref": "#/$defs/templateNode" } }]
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

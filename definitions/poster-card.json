@@ -1,0 +1,34 @@
+{
+  "name": "PosterCard",
+  "params": { "title": "Untitled" },
+  "template": {
+    "type": "Pressable",
+    "props": { "action": { "$bind": "action" }, "lift": true, "style": { "gap": 2 } },
+    "children": [
+      {
+        "type": "Box",
+        "props": { "style": { "position": "relative", "radius": "md", "overflow": "hidden", "aspectRatio": "2 / 3", "bg": "surface-raised", "shadow": "1" } },
+        "children": [
+          { "type": "Image", "props": { "src": { "$bind": "poster" }, "alt": { "$bind": "title" }, "placeholder": { "$bind": "mediaType" }, "style": { "width": "full", "height": "full" } } },
+          {
+            "type": "Box",
+            "props": { "$if": { "$bind": "badge" }, "style": { "position": "absolute", "top": 2, "left": 2, "bg": "surface-overlay", "radius": "sm", "px": 2, "py": 1 } },
+            "children": [{ "type": "Text", "props": { "text": { "$bind": "badge" }, "style": { "variant": "xs", "weight": "medium" } } }]
+          },
+          {
+            "type": "Box",
+            "props": { "$if": { "$bind": "progress" }, "style": { "position": "absolute", "left": 2, "right": 2, "bottom": 2 } },
+            "children": [{ "type": "ProgressBar", "props": { "value": { "$bind": "progress" } } }]
+          }
+        ]
+      },
+      {
+        "type": "Box",
+        "children": [
+          { "type": "Text", "props": { "text": { "$bind": "title" }, "style": { "variant": "sm", "weight": "medium", "lineClamp": 1 } } },
+          { "type": "Text", "props": { "$if": { "$bind": "subtitle" }, "text": { "$bind": "subtitle" }, "style": { "variant": "xs", "color": "text-muted" } } }
+        ]
+      }
+    ]
+  }
+}

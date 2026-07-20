@@ -1,0 +1,25 @@
+{
+  "name": "HeroBanner",
+  "template": {
+    "type": "Box",
+    "props": { "style": { "position": "relative", "radius": "lg", "overflow": "hidden", "minHeight": 340, "justify": "end" } },
+    "children": [
+      { "type": "Image", "props": { "src": { "$bind": "backdrop" }, "placeholder": " ", "style": { "position": "absolute", "top": 0, "right": 0, "bottom": 0, "left": 0, "width": "full", "height": "full" } } },
+      { "type": "Box", "props": { "style": { "position": "absolute", "top": 0, "right": 0, "bottom": 0, "left": 0, "bgGradient": { "from": "bg", "to": "transparent", "angle": 70 } } } },
+      {
+        "type": "Box",
+        "props": { "style": { "position": "relative", "p": 6, "gap": 3, "maxWidth": "620px" } },
+        "children": [
+          { "type": "Text", "props": { "text": { "$bind": "title" }, "style": { "variant": "3xl", "weight": "bold" } } },
+          {
+            "type": "Box",
+            "props": { "$if": { "$bind": "meta" }, "style": { "direction": "row", "gap": 3, "wrap": true } },
+            "children": [{ "type": "Text", "props": { "$each": { "$bind": "meta" }, "$as": "m", "text": { "$bind": "m" }, "style": { "variant": "sm", "color": "text-muted" } } }]
+          },
+          { "type": "Text", "props": { "$if": { "$bind": "overview" }, "text": { "$bind": "overview" }, "style": { "color": "text-muted" } } },
+          { "type": "Box", "props": { "style": { "direction": "row", "gap": 3, "wrap": true } }, "children": [{ "type": "Outlet", "props": { "name": "actions" } }] }
+        ]
+      }
+    ]
+  }
+}
