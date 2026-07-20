@@ -52,7 +52,7 @@ func Prop(key string, val any) Option {
 }
 
 // ID sets a stable node id.
-func ID(id string) Option { return func(n *Node) { n.ID = id } }
+func ID(id string) Option { return func(n *Node) { n.ID = &id } }
 
 // Act sets the node's primary action.
 func Act(a Action) Option { return Prop("action", a) }
@@ -171,12 +171,12 @@ func Button(label, variant string, action Action, opts ...Option) Node {
 }
 
 // Badge is a small pill. tone is one of the Tone constants.
-func Badge(label, tone string, opts ...Option) Node {
+func Badge(label string, tone Tone, opts ...Option) Node {
 	return build(TypeBadge, Props{"label": label, "tone": tone}, opts)
 }
 
 // Banner is an inline message.
-func Banner(message, tone string, opts ...Option) Node {
+func Banner(message string, tone Tone, opts ...Option) Node {
 	return build(TypeBanner, Props{"message": message, "tone": tone}, opts)
 }
 

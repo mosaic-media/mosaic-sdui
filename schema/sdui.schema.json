@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mosaic-media.github.io/mosaic-sdui/schema/sdui.schema.json",
+  "title": "MosaicSDUI",
+  "description": "The single source of truth for the Mosaic Server-Driven-UI contract. Language bindings (Go, TypeScript, Dart) are GENERATED from this file — do not hand-edit them. The root object exists only so a generator reaches every top-level type; the useful types are in $defs.",
+  "type": "object",
+  "properties": {
+    "node": { "$ref": "#/$defs/UINode" },
+    "action": { "$ref": "#/$defs/Action" },
+    "definition": { "$ref": "#/$defs/ComponentDefinition" }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "UINode": {
+      "title": "UINode",
+      "description": "One element of a server-driven UI tree. The `type` is an open vocabulary: a client that does not recognise a type renders a placeholder rather than failing.",
+      "type": "object",
+      "required": ["type"],
+      "properties": {
+        "type": { "type": "string", "description": "Component discriminator, e.g. \"PosterCard\"." },
+        "id": { "type": "string" },
+        "props": { "type": "object", "additionalProperties": true, "description": "Component-specific data. Open by design." },
+        "children": { "type": "array", "items": { "$ref": "#/$defs/UINode" } },
+        "slots": { "type": "object", "additionalProperties": { "type": "array", "items": { "$ref": "#/$defs/UINode" } } }
+      },
+      "additionalProperties": false
+    },
+    "Tone": { "title": "Tone", "enum": ["neutral", "accent", "success", "warning", "danger", "info"] },
+    "Surface": { "title": "Surface", "enum": ["modal", "sheet", "drawer"] },
+    "ActionKind": {
+      "title": "ActionKind",
+      "enum": ["navigate", "back", "openUrl", "invoke", "query", "openOverlay", "closeOverlay", "playPart", "toast", "sequence"]
+    },
+    "Action": {
+      "title": "Action",
+      "description": "A declarative behaviour envelope. Data, never code — the client interprets the kind. Each kind uses a subset of the fields.",
+      "type": "object",
+      "required": ["kind"],
+      "properties": {
+        "kind": { "$ref": "#/$defs/ActionKind" },
+        "screen": { "type": "string" },
+        "params": { "type": "object", "additionalProperties": true },
+        "url": { "type": "string" },
+        "mutation": { "type": "string" },
+        "input": { "type": "object", "additionalProperties": true },
+        "query": { "type": "string" },
+        "variables": { "type": "object", "additionalProperties": true },
+        "into": { "type": "string" },
+        "surface": { "$ref": "#/$defs/Surface" },
+        "node": { "$ref": "#/$defs/UINode" },
+        "partId": { "type": "string" },
+        "nodeId": { "type": "string" },
+        "message": { "type": "string" },
+        "tone": { "$ref": "#/$defs/Tone" },
+        "actions": { "type": "array", "items": { "$ref": "#/$defs/Action" } }
+      },
+      "additionalProperties": false
+    },
+    "ComponentDefinition": {
+      "title": "ComponentDefinition",
+      "description": "A component expressed as data: a name, default params, and a template of primitives. Clients register definitions and expand them; this is how a module contributes a component without shipping client code. A template node's props may hold binding objects ({\"$bind\":\"path\"} / {\"$match\":{…}}) and control keys ($if / $ifNot / $each / $as); a node of type \"Outlet\" renders the caller's children or a named slot.",
+      "type": "object",
+      "required": ["name", "template"],
+      "properties": {
+        "name": { "type": "string", "description": "The node type this definition provides." },
+        "params": { "type": "object", "additionalProperties": true, "description": "Default param values, overridden by the caller's props." },
+        "template": { "$ref": "#/$defs/UINode" }
+      },
+      "additionalProperties": false
+    }
+  }
+}
