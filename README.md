@@ -63,9 +63,33 @@ home := sdui.Screen(sdui.Child(
 // json.Marshal(home) → exactly the payload the Shell renders.
 ```
 
-Until this module is tagged, a producer wires it locally with a
-`replace github.com/mosaic-media/mosaic-sdui => ../mosaic-sdui` in its `go.mod`
-(the pattern the SDK uses for local work).
+Add it like any Go module:
+
+```bash
+go get github.com/mosaic-media/mosaic-sdui@v0.1.0
+```
+
+For local work across the sibling repos, use a
+`replace github.com/mosaic-media/mosaic-sdui => ../mosaic-sdui` in the consumer's
+`go.mod` instead.
+
+## Using it — a TypeScript client
+
+Published to npm as **`@mosaic-media/sdui`**:
+
+```bash
+npm install @mosaic-media/sdui
+```
+
+```ts
+import type { UINode, Action, ComponentDefinition } from "@mosaic-media/sdui";
+import heroBanner from "@mosaic-media/sdui/definitions/hero-banner.json";
+import tokens from "@mosaic-media/sdui/tokens.json";
+```
+
+The package is types + JSON data (no runtime code); it's meant for a bundler
+(the Shell uses Vite). Until the first npm release lands you can install straight
+from git: `npm install github:mosaic-media/mosaic-sdui`.
 
 ## The standard definitions
 
@@ -81,13 +105,26 @@ go test ./...               # unit + schema-conformance tests
 
 Requires `npx` (quicktype is fetched on demand) and `gofmt`.
 
+## Releasing
+
+One tag publishes every language:
+
+```bash
+# bump package.json + tag must match
+git tag v0.1.0 && git push origin v0.1.0
+```
+
+- **Go** needs nothing more — the module proxy serves the tag; consumers `go get …@v0.1.0`.
+- **npm** is published by `.github/workflows/release.yml` on the tag. It requires an `NPM_TOKEN` repository secret (an npm automation token for the `@mosaic-media` scope). Without it, publish manually: `npm publish --access public`.
+
+`.github/workflows/verify.yml` runs on every push: it fails if the generated bindings are stale, runs the Go + conformance tests, and typechecks the TypeScript.
+
 ## Next
 
-- Wire the Shell to import `ts/contract.gen.ts`, load `definitions/*.json`, and generate its CSS variables from `tokens/tokens.json` — retiring its local copies.
+- Wire the Shell to import `@mosaic-media/sdui`, load `definitions/*.json`, and generate its CSS variables from the tokens — retiring its local copies.
 - Migrate the remaining standard definitions from the Shell into `definitions/`.
 - A tokens generator (DTCG → CSS + Dart) and the light theme.
 - Add the Dart target to `generate.sh` when the Flutter client lands.
-- Tag `v0.1.0`, switch producers from `replace` to a versioned require.
 
 ## Licence
 

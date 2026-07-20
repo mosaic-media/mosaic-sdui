@@ -1,0 +1,30 @@
+name: release
+
+# Go publishes by the git tag alone (the module proxy serves it — no step here).
+# This workflow publishes the npm package on a version tag. It requires an
+# NPM_TOKEN repository secret (an npm automation token for the @mosaic-media
+# scope). Without it, the npm job fails and the Go tag is still published.
+on:
+  push:
+    tags: ["v*"]
+
+jobs:
+  npm:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          registry-url: "https://registry.npmjs.org"
+      - name: Guard — package.json version matches the tag
+        run: |
+          tag="${GITHUB_REF_NAME#v}"
+          pkg="$(node -p "require('./package.json').version")"
+          if [ "$tag" != "$pkg" ]; then
+            echo "tag v$tag != package.json $pkg" >&2; exit 1
+          fi
+      - name: Publish to npm
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
