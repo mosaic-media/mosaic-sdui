@@ -91,6 +91,34 @@ The package is types + JSON data (no runtime code); it's meant for a bundler
 (the Shell uses Vite). Until the first npm release lands you can install straight
 from git: `npm install github:mosaic-media/sdui`.
 
+### Widget-style authoring (mocks & fixtures)
+
+The `@mosaic-media/sdui/ui` subpath is a declarative authoring layer — the
+TypeScript twin of the Go `sdui/ui` package — for hand-writing screens (the
+Shell's mock payloads, storybook stories) as a widget tree instead of raw
+`UINode` JSON. `build()` returns exactly that JSON. The API mirrors the Go one
+name-for-name, so a screen transliterates between the two:
+
+```ts
+import {
+  Screen, Section, Carousel, Hero, PosterCard, Button,
+  Actions, Meta, Progress, OnTap, Navigate, Play,
+} from "@mosaic-media/sdui/ui";
+
+const home = Screen(
+  Hero("Spirited Away",
+    Meta("2001", "Anime Film", "PG"),
+    Actions(Button("Play", "primary", OnTap(Play("part-1")))),
+  ),
+  Section("Continue watching",
+    Carousel(
+      PosterCard("Cowboy Bebop", "Anime Series",
+        Progress(0.6), OnTap(Navigate("detail", { title: "Cowboy Bebop" }))),
+    ),
+  ),
+).build(); // → the same UINode payload the Shell renders
+```
+
 ## The standard definitions
 
 The reusable components — `PosterCard`, `HeroBanner`, `Section`, `Badge`, … — live here as `ComponentDefinition` data, not per-client code. A client registers them; a producer emits `{ "type": "HeroBanner", … }` and it renders identically on every client, with the Module shipping **zero** UI code. A Module can ship its own definitions the same way. Only the irreducible **primitives** are per-client native code; definitions compose only those ([ADR 0024](https://github.com/mosaic-media/architecture/blob/main/docs/adr/0024-primitives-and-definitions.md)).
