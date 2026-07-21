@@ -57,6 +57,11 @@ export function Badge(label: string, tone: string, ...els: Elish[]): Element {
   return compose("Badge", { label, tone }, els);
 }
 
+/** Banner is an inline message; tone is one of the Tone values. */
+export function Banner(message: string, tone: string, ...els: Elish[]): Element {
+  return compose("Banner", { message, tone }, els);
+}
+
 /** DetailHeader renders a node's metadata (title, meta, genres). */
 export function DetailHeader(title: string, ...els: Elish[]): Element {
   return compose("DetailHeader", { title }, els);
@@ -185,4 +190,9 @@ export function Invoke(mutation: string, input?: Props): Action {
 /** Play starts playback of a part. */
 export function Play(partId: string): Action {
   return { kind: ActionKind.PlayPart, partId };
+}
+
+/** OpenURL opens an external URL (the client validates the scheme). */
+export function OpenURL(url: string): Action {
+  return { kind: ActionKind.OpenURL, url };
 }

@@ -47,6 +47,11 @@ func Badge(label string, tone string, els ...El) *Element {
 	return compose("Badge", map[string]any{"label": label, "tone": tone}, els)
 }
 
+// Banner is an inline message; tone is one of the Tone values.
+func Banner(message string, tone string, els ...El) *Element {
+	return compose("Banner", map[string]any{"message": message, "tone": tone}, els)
+}
+
 // DetailHeader renders a node's metadata (title, meta, genres).
 func DetailHeader(title string, els ...El) *Element {
 	return compose("DetailHeader", map[string]any{"title": title}, els)
@@ -136,4 +141,5 @@ var (
 	Navigate = sdui.Navigate
 	Invoke   = sdui.Invoke
 	Play     = sdui.Play
+	OpenURL  = sdui.OpenURL
 )

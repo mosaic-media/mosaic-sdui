@@ -18,6 +18,7 @@ package ui
 import (
 	"encoding/json"
 
+	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/types/known/structpb"
 
 	sduiv1 "github.com/mosaic-media/sdui/gen/mosaic/sdui/v1"
@@ -72,6 +73,14 @@ func (e *Element) Build() Node {
 		}
 	}
 	return n
+}
+
+// BuildJSON compiles the element and marshals it to the canonical protojson
+// UINode encoding — the bytes a client (or the Platform) decodes with protojson.
+// It lets a producer that returns wire bytes (e.g. a module's settings UI, ADR
+// 0038) emit them without importing protojson itself.
+func (e *Element) BuildJSON() ([]byte, error) {
+	return protojson.Marshal(e.Build())
 }
 
 // opt adapts a function into an El that modifies the element it lands in.

@@ -25,6 +25,12 @@
       "doc": "Play starts playback of a part.",
       "args": [{ "name": "partId", "type": "string", "field": "partId" }],
       "optional": []
+    },
+    {
+      "func": "OpenURL", "sdui": "OpenURL", "kind": "openUrl", "enum": "OpenURL",
+      "doc": "OpenURL opens an external URL (the client validates the scheme).",
+      "args": [{ "name": "url", "type": "string", "field": "url" }],
+      "optional": []
     }
   ],
   "sugar": [
@@ -71,6 +77,11 @@
     { "func": "Badge", "type": "Badge", "doc": "Badge is a small pill; tone is one of the Tone values.",
       "positional": [
         { "name": "label", "key": "label", "type": "string" },
+        { "name": "tone", "key": "tone", "type": "string" }
+      ] },
+    { "func": "Banner", "type": "Banner", "doc": "Banner is an inline message; tone is one of the Tone values.",
+      "positional": [
+        { "name": "message", "key": "message", "type": "string" },
         { "name": "tone", "key": "tone", "type": "string" }
       ] },
     { "func": "DetailHeader", "type": "DetailHeader", "doc": "DetailHeader renders a node's metadata (title, meta, genres).",
