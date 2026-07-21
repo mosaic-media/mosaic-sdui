@@ -13,7 +13,7 @@ package sdui
 
 //go:generate bash ../scripts/generate.sh
 
-import "github.com/mosaic-media/mosaic-sdui/sdui/contract"
+import "github.com/mosaic-media/sdui/sdui/contract"
 
 // Contract types, re-exported from the generated package so producers import
 // only "sdui".

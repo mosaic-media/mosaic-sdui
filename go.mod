@@ -1,4 +1,4 @@
-module github.com/mosaic-media/mosaic-sdui
+module github.com/mosaic-media/sdui
 
 go 1.25.0
 

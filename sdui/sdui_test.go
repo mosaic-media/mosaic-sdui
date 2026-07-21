@@ -5,7 +5,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/mosaic-media/mosaic-sdui/sdui"
+	"github.com/mosaic-media/sdui/sdui"
 )
 
 // homeScreen is the kind of tree the Platform's emit-side will build.

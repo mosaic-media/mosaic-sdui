@@ -7,7 +7,7 @@ import (
 	"testing"
 
 	"github.com/santhosh-tekuri/jsonschema/v5"
-	"github.com/mosaic-media/mosaic-sdui/sdui"
+	"github.com/mosaic-media/sdui/sdui"
 )
 
 // These tests make schema/sdui.schema.json the ENFORCED source of truth: what
