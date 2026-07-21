@@ -11,10 +11,6 @@
 package sdui
 
 import (
-	"encoding/json"
-
-	"google.golang.org/protobuf/types/known/structpb"
-
 	sduiv1 "github.com/mosaic-media/sdui/gen/mosaic/sdui/v1"
 )
 
@@ -91,25 +87,3 @@ const (
 	SurfaceSheet  = "sheet"
 	SurfaceDrawer = "drawer"
 )
-
-// structFromProps JSON-encodes an open props bag into a protobuf Struct — the
-// encoding that lets actions, nested objects and typed slices ride the open bag
-// exactly as they did on the JSON wire. Returns nil for an empty bag.
-func structFromProps(props map[string]any) *structpb.Struct {
-	if len(props) == 0 {
-		return nil
-	}
-	b, err := json.Marshal(props)
-	if err != nil {
-		return nil
-	}
-	var m map[string]any
-	if err := json.Unmarshal(b, &m); err != nil {
-		return nil
-	}
-	s, err := structpb.NewStruct(m)
-	if err != nil {
-		return nil
-	}
-	return s
-}

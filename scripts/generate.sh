@@ -26,4 +26,9 @@ echo "generating TypeScript -> ts/contract.gen.ts"
 sed -i '/^export interface MosaicSDUI {/,/^}/d' ts/contract.gen.ts
 sed -i '1s|^|// Code generated from schema/sdui.schema.json by quicktype. DO NOT EDIT.\n|' ts/contract.gen.ts
 
+# The ui authoring layer (ui/components.gen.go, ts/ui.ts) is generated from
+# ui.spec.json by tools/genui, which also lints the spec against definitions/.
+echo "generating ui layer -> ui/components.gen.go, ts/ui.ts (+ spec lint)"
+go run ./tools/genui
+
 echo "done."

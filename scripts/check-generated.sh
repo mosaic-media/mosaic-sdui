@@ -6,9 +6,10 @@ cd "$(dirname "$0")/.."
 
 scripts/generate.sh >/dev/null
 
-if ! git diff --quiet -- sdui/contract/contract.gen.go ts/contract.gen.ts; then
+GENERATED=(sdui/contract/contract.gen.go ts/contract.gen.ts ui/components.gen.go ts/ui.ts)
+if ! git diff --quiet -- "${GENERATED[@]}"; then
   echo "ERROR: generated bindings are stale. Run scripts/generate.sh and commit." >&2
-  git --no-pager diff --stat -- sdui/contract/contract.gen.go ts/contract.gen.ts >&2
+  git --no-pager diff --stat -- "${GENERATED[@]}" >&2
   exit 1
 fi
 echo "generated bindings are up to date."

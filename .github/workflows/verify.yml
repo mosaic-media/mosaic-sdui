@@ -26,6 +26,6 @@ jobs:
       - name: Go test
         run: go test ./...
 
-      # The generated TypeScript typechecks.
+      # The generated TypeScript (contract + ui authoring layer) typechecks.
       - name: TypeScript typecheck
-        run: npx --yes typescript@5 tsc --noEmit --strict ts/contract.gen.ts
+        run: npx --yes typescript@5 tsc --noEmit --strict --module esnext --moduleResolution bundler ts/contract.gen.ts ts/ui_runtime.ts ts/ui.ts

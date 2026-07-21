@@ -8,6 +8,7 @@ import (
 
 	"github.com/santhosh-tekuri/jsonschema/v5"
 
+	sduiv1 "github.com/mosaic-media/sdui/gen/mosaic/sdui/v1"
 	"github.com/mosaic-media/sdui/sdui"
 )
 
@@ -47,7 +48,7 @@ func TestActionsConformToSchema(t *testing.T) {
 		sdui.Play("p1"),
 		sdui.Toast("hi", sdui.ToneSuccess),
 		sdui.Invoke("importContent", map[string]any{"id": 1}),
-		sdui.OpenOverlay(sdui.SurfaceSheet, sdui.Screen()),
+		sdui.OpenOverlay(sdui.SurfaceSheet, &sduiv1.UINode{Type: "Screen"}),
 		sdui.Sequence(sdui.Back(), sdui.Toast("done", sdui.ToneInfo)),
 	}
 	for i, a := range actions {

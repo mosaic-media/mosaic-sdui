@@ -41,32 +41,41 @@ Only the ergonomic builders are hand-written; they sit *on top of* the generated
 
 ## Using it — a Go producer
 
-```go
-import "github.com/mosaic-media/sdui/sdui"
+Screens are authored with the declarative `ui` layer — a widget tree where
+children, props and slots intermix. `Build()` compiles to the protobuf `UINode`
+the transport carries.
 
-home := sdui.Screen(sdui.Child(
-    sdui.HeroBanner("Spirited Away",
-        sdui.Meta("2001", "Anime Film", "PG"),
-        sdui.Slot("actions",
-            sdui.Button("Play", "primary", sdui.Play("part-1")),
+```go
+import "github.com/mosaic-media/sdui/ui"
+
+home := ui.Screen(
+    ui.Hero("Spirited Away",
+        ui.Meta("2001", "Anime Film", "PG"),
+        ui.Actions(
+            ui.Button("Play", "primary", ui.OnTap(ui.Play("part-1"))),
         ),
     ),
-    sdui.Section("Continue watching", sdui.Child(
-        sdui.Carousel(sdui.Child(
-            sdui.PosterCard("Cowboy Bebop", "Anime Series",
-                sdui.Progress(0.6),
-                sdui.Act(sdui.Navigate("detail", map[string]any{"title": "Cowboy Bebop"})),
+    ui.Section("Continue watching",
+        ui.Carousel(
+            ui.PosterCard("Cowboy Bebop", "Anime Series",
+                ui.Progress(0.6),
+                ui.OnTap(ui.Navigate("detail", map[string]any{"title": "Cowboy Bebop"})),
             ),
-        )),
-    )),
-))
-// json.Marshal(home) → exactly the payload the Shell renders.
+        ),
+    ),
+).Build() // → exactly the UINode the Shell renders.
 ```
+
+The `ui` constructors are **generated** from [`ui.spec.json`](ui.spec.json) by
+[`tools/genui`](tools/genui), which also emits the TypeScript twin and lints the
+spec against the standard definitions (see [Regenerating](#regenerating)). The
+`github.com/mosaic-media/sdui/sdui` package keeps the shared types (`Node`,
+`Action`, the action constructors, tone/type constants).
 
 Add it like any Go module:
 
 ```bash
-go get github.com/mosaic-media/sdui@v0.1.0
+go get github.com/mosaic-media/sdui/ui@latest
 ```
 
 For local work across the sibling repos, use a
@@ -125,13 +134,26 @@ The reusable components — `PosterCard`, `HeroBanner`, `Section`, `Badge`, … 
 
 ## Regenerating
 
+Two generators, both driven by a single source of truth:
+
+- **The contract** (`schema/sdui.schema.json`) → `sdui/contract/contract.gen.go`,
+  `ts/contract.gen.ts` via quicktype.
+- **The `ui` authoring layer** (`ui.spec.json`) → `ui/components.gen.go`,
+  `ts/ui.ts` via [`tools/genui`](tools/genui). The same tool **lints** the spec
+  against `definitions/*.json`: every definition must have a component, and every
+  prop a definition's template binds must be exposed by some helper — so a new
+  component that nothing authors fails the build, and Go/TS can never drift.
+
 ```bash
-scripts/generate.sh         # regenerate Go + TS from the schema
-scripts/check-generated.sh  # fail if committed bindings are stale
-go test ./...               # unit + schema-conformance tests
+scripts/generate.sh          # regenerate both (schema + ui spec), then lint
+scripts/check-generated.sh   # CI: fail if any generated file is stale or lint fails
+go run ./tools/genui -lint   # just lint the ui spec against the definitions
+go test ./...                # unit + schema-conformance tests
 ```
 
-Requires `npx` (quicktype is fetched on demand) and `gofmt`.
+Editing the `ui` layer means editing `ui.spec.json` (and adding a component there
+when you add a `definitions/*.json`), never the generated files. Requires `npx`
+(quicktype is fetched on demand), `gofmt` and Go.
 
 ## Releasing
 
