@@ -1,0 +1,102 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 the Mosaic authors
+
+// Package mosaic.sdui.v1 is the Mosaic Server-Driven-UI contract (ADR 0025, as
+// amended by ADR 0044): the typed source of truth for the UI tree, generated
+// into every client language. It is Apache-2.0 — a contract surface a module may
+// build against under any licence.
+//
+// The vocabulary is OPEN by design (ADR 0015): a node's `type` is a free string,
+// and its `props` are an open bag (google.protobuf.Struct). protobuf types the
+// tree skeleton, actions and region operations; the open leaves stay a Struct.
+// This is not the governed-vocabulary fork ADR 0025 named.
+syntax = "proto3";
+
+package mosaic.sdui.v1;
+
+import "google/protobuf/struct.proto";
+
+option go_package = "github.com/mosaic-media/sdui/gen/mosaic/sdui/v1;sduiv1";
+
+// UINode is one element of a server-driven UI tree. `type` is an open
+// vocabulary: a client that does not recognise it renders a placeholder rather
+// than failing. Component-specific data rides in `props`, open by design.
+message UINode {
+  string type = 1;
+  string id = 2;
+  google.protobuf.Struct props = 3;
+  repeated UINode children = 4;
+  map<string, NodeList> slots = 5;
+}
+
+// NodeList wraps a repeated UINode so it can be a protobuf map value — maps
+// cannot hold `repeated` directly. It is the value type of UINode.slots.
+message NodeList {
+  repeated UINode nodes = 1;
+}
+
+// Tone is a semantic colour role for actionable and feedback components.
+enum Tone {
+  TONE_UNSPECIFIED = 0;
+  TONE_NEUTRAL = 1;
+  TONE_ACCENT = 2;
+  TONE_SUCCESS = 3;
+  TONE_WARNING = 4;
+  TONE_DANGER = 5;
+  TONE_INFO = 6;
+}
+
+// Surface is how an overlay is presented.
+enum Surface {
+  SURFACE_UNSPECIFIED = 0;
+  SURFACE_MODAL = 1;
+  SURFACE_SHEET = 2;
+  SURFACE_DRAWER = 3;
+}
+
+// ActionKind discriminates an Action's behaviour.
+enum ActionKind {
+  ACTION_KIND_UNSPECIFIED = 0;
+  ACTION_KIND_NAVIGATE = 1;
+  ACTION_KIND_BACK = 2;
+  ACTION_KIND_OPEN_URL = 3;
+  ACTION_KIND_INVOKE = 4;
+  ACTION_KIND_QUERY = 5;
+  ACTION_KIND_OPEN_OVERLAY = 6;
+  ACTION_KIND_CLOSE_OVERLAY = 7;
+  ACTION_KIND_PLAY_PART = 8;
+  ACTION_KIND_TOAST = 9;
+  ACTION_KIND_SEQUENCE = 10;
+}
+
+// Action is a declarative behaviour envelope — data, never code. The client
+// interprets `kind`; each kind uses a subset of the fields. This is a faithful
+// translation of the JSON-Schema Action; a `oneof` by kind is a possible future
+// refinement (it would churn the ergonomic constructors, so it is deferred).
+message Action {
+  ActionKind kind = 1;
+  string screen = 2;
+  google.protobuf.Struct params = 3;
+  string url = 4;
+  string mutation = 5;
+  google.protobuf.Struct input = 6;
+  string query = 7;
+  google.protobuf.Struct variables = 8;
+  string into = 9;
+  Surface surface = 10;
+  UINode node = 11;
+  string part_id = 12;
+  string node_id = 13;
+  string message = 14;
+  Tone tone = 15;
+  repeated Action actions = 16;
+}
+
+// ComponentDefinition expresses a component as data: a name, default params, and
+// a template of primitives. Clients register definitions and expand them — how a
+// module contributes a component without shipping client code (ADR 0024).
+message ComponentDefinition {
+  string name = 1;
+  google.protobuf.Struct params = 2;
+  UINode template = 3;
+}

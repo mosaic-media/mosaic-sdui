@@ -1,0 +1,25 @@
+# SPDX-License-Identifier: Apache-2.0
+# SPDX-FileCopyrightText: 2026 the Mosaic authors
+
+# buf workspace for the Mosaic contracts (ADR 0044): two modules under proto/ —
+# the SDUI content contract (mosaic/sdui/v1) and the session transport contract
+# (mosaic/session/v1), the latter importing the former so a UINode rides typed.
+version: v2
+modules:
+  - path: proto
+lint:
+  use:
+    - STANDARD
+  except:
+    # ADR 0041 names the session contract deliberately: a shared empty Ack reply
+    # for every intent, an Op enum whose zero value REPLACE is the whole-region
+    # default, and a ServerMessage streamed by Subscribe. These honour the ADR's
+    # shape over buf's naming conventions.
+    - RPC_REQUEST_STANDARD_NAME
+    - RPC_RESPONSE_STANDARD_NAME
+    - RPC_REQUEST_RESPONSE_UNIQUE
+    - ENUM_VALUE_PREFIX
+    - ENUM_ZERO_VALUE_SUFFIX
+breaking:
+  use:
+    - FILE

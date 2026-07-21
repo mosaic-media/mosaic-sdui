@@ -1,0 +1,14 @@
+# SPDX-License-Identifier: Apache-2.0
+# SPDX-FileCopyrightText: 2026 the Mosaic authors
+
+# Generates the per-language bindings for the contracts workspace (ADR 0044).
+# Go now (protobuf messages + Connect service stubs) into the published gen/
+# path; TypeScript (protoc-gen-es) and native clients land in later slices.
+version: v2
+plugins:
+  - local: protoc-gen-go
+    out: gen
+    opt: paths=source_relative
+  - local: protoc-gen-connect-go
+    out: gen
+    opt: paths=source_relative
