@@ -13,7 +13,6 @@
 export interface Action {
     actions?:   Action[];
     input?:     { [key: string]: any };
-    into?:      string;
     kind:       ActionKind;
     message?:   string;
     mutation?:  string;
@@ -21,12 +20,10 @@ export interface Action {
     nodeId?:    string;
     params?:    { [key: string]: any };
     partId?:    string;
-    query?:     string;
     screen?:    string;
     surface?:   Surface;
     tone?:      Tone;
     url?:       string;
-    variables?: { [key: string]: any };
 }
 
 export enum ActionKind {
@@ -37,7 +34,6 @@ export enum ActionKind {
     OpenOverlay = "openOverlay",
     OpenURL = "openUrl",
     PlayPart = "playPart",
-    Query = "query",
     Sequence = "sequence",
     Toast = "toast",
 }

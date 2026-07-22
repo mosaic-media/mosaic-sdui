@@ -9,22 +9,19 @@ package contract
 // A declarative behaviour envelope. Data, never code — the client interprets the kind. Each
 // kind uses a subset of the fields.
 type Action struct {
-	Actions   []Action               `json:"actions,omitempty"`
-	Input     map[string]interface{} `json:"input,omitempty"`
-	Into      *string                `json:"into,omitempty"`
-	Kind      ActionKind             `json:"kind"`
-	Message   *string                `json:"message,omitempty"`
-	Mutation  *string                `json:"mutation,omitempty"`
-	Node      *UINode                `json:"node,omitempty"`
-	NodeID    *string                `json:"nodeId,omitempty"`
-	Params    map[string]interface{} `json:"params,omitempty"`
-	PartID    *string                `json:"partId,omitempty"`
-	Query     *string                `json:"query,omitempty"`
-	Screen    *string                `json:"screen,omitempty"`
-	Surface   *Surface               `json:"surface,omitempty"`
-	Tone      *Tone                  `json:"tone,omitempty"`
-	URL       *string                `json:"url,omitempty"`
-	Variables map[string]interface{} `json:"variables,omitempty"`
+	Actions  []Action               `json:"actions,omitempty"`
+	Input    map[string]interface{} `json:"input,omitempty"`
+	Kind     ActionKind             `json:"kind"`
+	Message  *string                `json:"message,omitempty"`
+	Mutation *string                `json:"mutation,omitempty"`
+	Node     *UINode                `json:"node,omitempty"`
+	NodeID   *string                `json:"nodeId,omitempty"`
+	Params   map[string]interface{} `json:"params,omitempty"`
+	PartID   *string                `json:"partId,omitempty"`
+	Screen   *string                `json:"screen,omitempty"`
+	Surface  *Surface               `json:"surface,omitempty"`
+	Tone     *Tone                  `json:"tone,omitempty"`
+	URL      *string                `json:"url,omitempty"`
 }
 
 // One element of a server-driven UI tree. The `type` is an open vocabulary: a client that
@@ -62,7 +59,6 @@ const (
 	OpenOverlay  ActionKind = "openOverlay"
 	OpenURL      ActionKind = "openUrl"
 	PlayPart     ActionKind = "playPart"
-	Query        ActionKind = "query"
 	Sequence     ActionKind = "sequence"
 	Toast        ActionKind = "toast"
 )

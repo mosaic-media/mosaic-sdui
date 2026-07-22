@@ -29,7 +29,7 @@
     "Surface": { "title": "Surface", "enum": ["modal", "sheet", "drawer"] },
     "ActionKind": {
       "title": "ActionKind",
-      "enum": ["navigate", "back", "openUrl", "invoke", "query", "openOverlay", "closeOverlay", "playPart", "toast", "sequence"]
+      "enum": ["navigate", "back", "openUrl", "invoke", "openOverlay", "closeOverlay", "playPart", "toast", "sequence"]
     },
     "Action": {
       "title": "Action",
@@ -43,9 +43,6 @@
         "url": { "type": "string" },
         "mutation": { "type": "string" },
         "input": { "type": "object", "additionalProperties": true },
-        "query": { "type": "string" },
-        "variables": { "type": "object", "additionalProperties": true },
-        "into": { "type": "string" },
         "surface": { "$ref": "#/$defs/Surface" },
         "node": { "$ref": "#/$defs/UINode" },
         "partId": { "type": "string" },

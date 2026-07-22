@@ -39,22 +39,19 @@ type (
 // rather than the (for now unused) protobuf Action message. Each kind uses a
 // subset of the fields; the constructors in actions.go hide the pointer optionals.
 type Action struct {
-	Kind      ActionKind     `json:"kind"`
-	Screen    *string        `json:"screen,omitempty"`
-	Params    map[string]any `json:"params,omitempty"`
-	URL       *string        `json:"url,omitempty"`
-	Mutation  *string        `json:"mutation,omitempty"`
-	Input     map[string]any `json:"input,omitempty"`
-	Query     *string        `json:"query,omitempty"`
-	Variables map[string]any `json:"variables,omitempty"`
-	Into      *string        `json:"into,omitempty"`
-	Surface   *Surface       `json:"surface,omitempty"`
-	Node      map[string]any `json:"node,omitempty"`
-	PartID    *string        `json:"partId,omitempty"`
-	NodeID    *string        `json:"nodeId,omitempty"`
-	Message   *string        `json:"message,omitempty"`
-	Tone      *Tone          `json:"tone,omitempty"`
-	Actions   []Action       `json:"actions,omitempty"`
+	Kind     ActionKind     `json:"kind"`
+	Screen   *string        `json:"screen,omitempty"`
+	Params   map[string]any `json:"params,omitempty"`
+	URL      *string        `json:"url,omitempty"`
+	Mutation *string        `json:"mutation,omitempty"`
+	Input    map[string]any `json:"input,omitempty"`
+	Surface  *Surface       `json:"surface,omitempty"`
+	Node     map[string]any `json:"node,omitempty"`
+	PartID   *string        `json:"partId,omitempty"`
+	NodeID   *string        `json:"nodeId,omitempty"`
+	Message  *string        `json:"message,omitempty"`
+	Tone     *Tone          `json:"tone,omitempty"`
+	Actions  []Action       `json:"actions,omitempty"`
 }
 
 // Action kinds — the JSON discriminator values.
@@ -63,7 +60,6 @@ const (
 	KindBack         = "back"
 	KindOpenURL      = "openUrl"
 	KindInvoke       = "invoke"
-	KindQuery        = "query"
 	KindOpenOverlay  = "openOverlay"
 	KindCloseOverlay = "closeOverlay"
 	KindPlayPart     = "playPart"

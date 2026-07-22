@@ -1,0 +1,84 @@
+// SPDX-License-Identifier: Apache-2.0
+// SPDX-FileCopyrightText: 2026 the Mosaic authors
+
+// Package mosaic.auth.v1 is how a client obtains the session every other
+// first-party call needs (ADR 0061).
+//
+// It is deliberately a service of its own rather than more RPCs on
+// mosaic.session.v1.SessionService. Every request on that service begins with a
+// session ref, because a session intent is by definition something a session
+// does; sign-in is the one call made *without* a session, and folding it in
+// would put the service's only unauthenticated methods next to the ones whose
+// whole contract is that they are authenticated. Separating them also lets the
+// Platform mount them behind different interceptors.
+//
+// This surface replaced the GraphQL signIn/signOut mutations when ADR 0061
+// retired the GraphQL transport. Errors carry the Platform's fixed error
+// categories as Connect/gRPC codes — a bad password is UNAUTHENTICATED, not a
+// 200 with an error object.
+syntax = "proto3";
+
+package mosaic.auth.v1;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/mosaic-media/sdui/gen/mosaic/auth/v1;authv1";
+
+// AuthService mints and revokes sessions. Both calls are unary: there is
+// nothing to push before a client has a session to push to.
+service AuthService {
+  // SignIn authenticates a local user with a password and issues a session.
+  // The returned session id is the opaque ref (ADR 0017) the client presents on
+  // every SessionService call.
+  rpc SignIn(SignInRequest) returns (SignInResponse);
+  // SignOut revokes a session server-side. A client revoking its own session
+  // passes the same value for both fields; revoking another device's session is
+  // an authorised act, which is why the caller is named separately.
+  rpc SignOut(SignOutRequest) returns (SignOutResponse);
+}
+
+// SignInRequest is a local username/password authentication from a named
+// device. device_id is required: a session belongs to a device, so the Platform
+// can revoke one client without ending the others.
+message SignInRequest {
+  string username = 1;
+  string password = 2;
+  string device_id = 3;
+}
+
+// SignInResponse carries the issued session.
+message SignInResponse {
+  Session session = 1;
+}
+
+// SignOutRequest revokes target_session on behalf of caller_session.
+message SignOutRequest {
+  string caller_session = 1;
+  string target_session = 2;
+}
+
+// SignOutResponse echoes the session that was revoked.
+message SignOutResponse {
+  string session = 1;
+}
+
+// Session is the projection of an issued session a client is allowed to see.
+//
+// There is deliberately no capabilities field. domain.Session models one and
+// the Postgres store round-trips it, but nothing populates it at issue time, so
+// the GraphQL surface this replaced returned an empty list on every sign-in. A
+// contract that always sends an empty list is worse than one that does not
+// mention it: a client would reasonably read "no capabilities" as "hide
+// everything". Capability-gated affordances (ADR 0036) therefore stay a server
+// concern — the Platform omits what the caller cannot use when it renders the
+// screen. Add the field when a session genuinely carries the set, and it is a
+// backward-compatible addition when that happens.
+message Session {
+  string id = 1;
+  string user_id = 2;
+  string device_id = 3;
+  google.protobuf.Timestamp issued_at = 4;
+  google.protobuf.Timestamp last_seen_at = 5;
+  google.protobuf.Timestamp expires_at = 6;
+  string auth_strength = 7;
+}

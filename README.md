@@ -19,7 +19,7 @@ Two guards keep it honest:
 - **Drift guard** — `scripts/check-generated.sh` regenerates and fails if the committed bindings are stale (run it in CI). Change the schema → regenerate → commit.
 - **Conformance tests** (`sdui/conformance_test.go`) — validate what the hand-written builders *produce*, and every file in `definitions/`, against the schema. So even the ergonomic layer cannot drift from the contract.
 
-**JSON Schema, not protobuf** — the node tree is open (props are an untyped bag by design), it rides GraphQL as JSON, and the definitions and tokens are JSON data. See [ADR 0025](https://github.com/mosaic-media/architecture/blob/main/docs/adr/0025-sdui-contract-repository.md).
+**JSON Schema, not protobuf, for the *authoring* layer** — the node tree is open (props are an untyped bag by design) and the definitions and tokens are JSON data. See [ADR 0025](https://github.com/mosaic-media/architecture/blob/main/docs/adr/0025-sdui-contract-repository.md). The *wire* is protobuf end to end: `UINode` is generated as a message too ([ADR 0044](https://github.com/mosaic-media/architecture/blob/main/docs/adr/0044-contracts-protobuf-workspace.md)), and since [ADR 0061](https://github.com/mosaic-media/architecture/blob/main/docs/adr/0061-one-client-transport.md) protobuf/Connect is the *only* client transport — there is no GraphQL surface left to ride.
 
 ## Layout
 
@@ -95,9 +95,15 @@ import type { UINode, Action, ComponentDefinition } from "@mosaic-media/sdui";
 import heroBanner from "@mosaic-media/sdui/definitions/hero-banner.json";
 import tokens from "@mosaic-media/sdui/tokens.json";
 
-// The generated protobuf session transport (ADR 0041) — the SessionService
-// descriptor + message schemas a Connect-Web client speaks, and the wire UINode
-// message. Pair with @connectrpc/connect + @connectrpc/connect-web.
+// The generated protobuf client transport — the service descriptors + message
+// schemas a Connect-Web client speaks, and the wire UINode message. Pair with
+// @connectrpc/connect + @connectrpc/connect-web.
+//
+//   /auth    — AuthService: sign in, get a session (ADR 0061).
+//   /session — SessionService: the two-lane live session (ADR 0041).
+//
+// Together they are the whole client surface; there is no second transport.
+import { AuthService } from "@mosaic-media/sdui/auth";
 import { SessionService, RegionUpdate_Op } from "@mosaic-media/sdui/session";
 import { UINodeSchema } from "@mosaic-media/sdui/sdui-pb";
 ```

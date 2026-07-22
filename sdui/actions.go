@@ -27,14 +27,11 @@ func Back() Action { return Action{Kind: KindBack} }
 // OpenURL opens an external URL (the client validates the scheme).
 func OpenURL(url string) Action { return Action{Kind: KindOpenURL, URL: strp(url)} }
 
-// Invoke runs a Platform mutation by name.
+// Invoke runs a Platform action by name — an intent the session transport
+// dispatches (ADR 0061). The field is called Mutation for the same reason the
+// contract's is: it names a Platform write, whatever the transport calls it.
 func Invoke(mutation string, input map[string]any) Action {
 	return Action{Kind: KindInvoke, Mutation: strp(mutation), Input: input}
-}
-
-// Query runs a Platform query, optionally refreshing a named region.
-func Query(query string, variables map[string]any, into string) Action {
-	return Action{Kind: KindQuery, Query: strp(query), Variables: variables, Into: strp(into)}
 }
 
 // OpenOverlay presents a node as a modal/sheet/drawer. The node rides inside the
