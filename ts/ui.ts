@@ -181,6 +181,16 @@ export function MimeType(v: string): El {
   return Prop("mimeType", v);
 }
 
+/** NodeID names the item a Player is playing, so the client can report its position back against it (ADR 0046). */
+export function NodeID(v: string): El {
+  return Prop("nodeId", v);
+}
+
+/** PartID names the release a Player is playing, recorded with the position so a resume returns to the same encode (ADR 0046). */
+export function PartID(v: string): El {
+  return Prop("partId", v);
+}
+
 // Tone values (the open-bag string encoding), mirroring the Go Tone constants.
 export const ToneNeutral = "neutral" as const;
 export const ToneSuccess = "success" as const;

@@ -137,6 +137,12 @@ func ResumeAt(v float64) El { return Prop("resumeAt", v) }
 // MimeType sets the media type a Player should expect, so a client can pick a pipeline before it fetches.
 func MimeType(v string) El { return Prop("mimeType", v) }
 
+// NodeID names the item a Player is playing, so the client can report its position back against it (ADR 0046).
+func NodeID(v string) El { return Prop("nodeId", v) }
+
+// PartID names the release a Player is playing, recorded with the position so a resume returns to the same encode (ADR 0046).
+func PartID(v string) El { return Prop("partId", v) }
+
 // Tone values (the open-bag string encoding), re-exported from the producer binding.
 const (
 	ToneNeutral = sdui.ToneNeutral

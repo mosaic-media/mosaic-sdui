@@ -185,6 +185,18 @@
       "key": "mimeType",
       "type": "string",
       "doc": "MimeType sets the media type a Player should expect, so a client can pick a pipeline before it fetches."
+    },
+    {
+      "func": "NodeID",
+      "key": "nodeId",
+      "type": "string",
+      "doc": "NodeID names the item a Player is playing, so the client can report its position back against it (ADR 0046)."
+    },
+    {
+      "func": "PartID",
+      "key": "partId",
+      "type": "string",
+      "doc": "PartID names the release a Player is playing, recorded with the position so a resume returns to the same encode (ADR 0046)."
     }
   ],
   "slots": [
