@@ -67,6 +67,41 @@ message AttachRequest {
   string session = 1; // opaque session ref (ADR 0017); auth is on this call.
   string screen = 2;  // optional route to (re-)assert; empty leaves it unchanged.
   bytes params = 3;   // optional screen params as a JSON object (see params note).
+  // What this client can actually play (ADR 0047). Optional: a client that
+  // declares nothing gets whatever the server assumes, which is what every
+  // client got before this field existed.
+  ClientProfile profile = 4;
+}
+
+// ClientProfile is what a client can decode, declared once per connection.
+//
+// It exists because the server was guessing. Stream selection (ADR 0048) ranks a
+// source's candidates against what the caller can play, and with no declaration
+// the Platform hard-coded a desktop browser's abilities at the call site —
+// honest for one client and a lie for the four the transport was built to serve
+// (ADR 0041).
+//
+// The client is the only thing that knows. A browser can answer precisely via
+// canPlayType (ADR 0070); a native player knows its own decoders. Neither is
+// something a server can infer from a user agent without being wrong eventually.
+//
+// It is also what the resolution cache is keyed on (ADR 0049): the Platform
+// reduces this to a stable class, so clients that decode the same things share
+// one cached resolution rather than each paying for their own.
+message ClientProfile {
+  // Containers, video and audio codecs the client can decode, as the names
+  // ffprobe uses ("matroska", "hevc", "eac3") so a declaration and a probe are
+  // directly comparable rather than two vocabularies.
+  repeated string containers = 1;
+  repeated string video_codecs = 2;
+  repeated string audio_codecs = 3;
+  // Whether the client can *render* high dynamic range, which is a separate
+  // question from decoding the codec that carries it: an SDR display given
+  // HDR10 renders it wrong rather than not at all.
+  bool hdr = 4;
+  // Largest useful height, 0 for uncapped. A phone gains nothing from pixels it
+  // cannot show and pays for them in bandwidth.
+  int32 max_height = 5;
 }
 
 // NavigateRequest opens a screen.
