@@ -6,7 +6,14 @@ cd "$(dirname "$0")/.."
 
 scripts/generate.sh >/dev/null
 
-GENERATED=(sdui/contract/contract.gen.go ts/contract.gen.ts ui/components.gen.go ts/ui.ts)
+# Every committed generated file, so a stale or hand-edited one is caught here
+# rather than in a consumer. gen/ and gen-ts/ are the protobuf bindings, which
+# were uncovered until a corrupted .pb.go reached the Platform and failed at
+# init — the failure this guard now prevents.
+GENERATED=(
+  sdui/contract/contract.gen.go ts/contract.gen.ts ui/components.gen.go ts/ui.ts
+  gen gen-ts
+)
 if ! git diff --quiet -- "${GENERATED[@]}"; then
   echo "ERROR: generated bindings are stale. Run scripts/generate.sh and commit." >&2
   git --no-pager diff --stat -- "${GENERATED[@]}" >&2

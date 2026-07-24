@@ -6277,9 +6277,13 @@ func (x *ListInProgressResponse) GetItems() []*InProgressItem {
 	return nil
 }
 
-// Field is one structured attribute. The value is carried as a string with its
-// own type tag rather than as a oneof of scalars, matching how the Go Telemetry
-// surface already flattens them — the sink writes strings either way.
+// Field is one structured attribute. The value crosses as a string rather than
+// a oneof of scalars — a deliberate loss of type, since the SDK's Field.Value is
+// `any` and the module harness renders it with fmt.Sprint before it reaches the
+// wire (sdk/host's telemetry bridge owns that, and names the cost). Carrying a
+// typed oneof would preserve the original type at the cost of schema surface for
+// an observational channel whose fields are already heterogeneous; if a sink
+// ever needs the type, this is where it was dropped.
 type Field struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Key           string                 `protobuf:"bytes,1,opt,name=key,proto3" json:"key,omitempty"`

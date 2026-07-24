@@ -39,4 +39,26 @@ sed -i '1s|^|// Code generated from schema/sdui.schema.json by quicktype. DO NOT
 echo "generating ui layer -> ui/components.gen.go, ts/ui.ts (+ spec lint)"
 go run ./tools/genui
 
+# The protobuf bindings (ADR 0044): Go + Connect stubs and TypeScript for the
+# client-facing contracts, Go + gRPC stubs for the module wire (ADR 0064). Two
+# templates because the two surfaces need different plugins — Connect for a
+# browser-facing contract, gRPC for what go-plugin registers on a *grpc.Server —
+# and the split is deliberate, not duplication (buf.gen.module.yaml says why).
+#
+# npm ci first, so protoc-gen-es resolves to the version package-lock.json pins
+# rather than whatever `npx` would fetch — the same determinism quicktype's pin
+# buys, for the TS half. buf and the Go plugins are pinned in Dockerfile.test.
+if command -v buf >/dev/null 2>&1; then
+  echo "generating protobuf -> gen/, gen-ts/"
+  npm ci >/dev/null
+  buf generate --template buf.gen.yaml \
+    --path proto/mosaic/auth --path proto/mosaic/sdui --path proto/mosaic/session
+  buf generate --template buf.gen.module.yaml --path proto/mosaic/module
+else
+  # buf is absent on a bare host; the container has it. Skipping here keeps the
+  # script runnable for the quicktype/genui half without the protobuf toolchain,
+  # while the drift guard — which always runs in the container — covers proto.
+  echo "buf not found; skipping protobuf generation (the container gate covers it)"
+fi
+
 echo "done."

@@ -25,6 +25,20 @@ RUN set -eux; \
     node --version; \
     npm --version
 
+# The protobuf toolchain, pinned. The drift guard regenerates the .pb.go, the
+# Connect stubs and the gRPC stubs from the .proto and diffs them — so a
+# hand-edited or stale binding is caught here rather than at init in the
+# consuming repository, which is exactly how it escaped once (a textual rewrite
+# of the module path corrupted a length-prefixed descriptor and every gate here
+# passed). Versions match go.mod's protobuf/connect/grpc so the generated code
+# and the code that runs it agree; protoc-gen-es is pinned in package.json and
+# comes from `npm ci` in the generator, deterministic the same way quicktype is.
+RUN set -eux; \
+    go install github.com/bufbuild/buf/cmd/buf@v1.47.2; \
+    go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.36.11; \
+    go install connectrpc.com/connect/cmd/protoc-gen-connect-go@v1.20.0; \
+    go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.5.1
+
 # The drift guard's verdict is `git diff`, and git refuses to read a
 # bind-mounted repository owned by a different uid than the one running it —
 # it reports dubious ownership and exits non-zero, which looks exactly like
