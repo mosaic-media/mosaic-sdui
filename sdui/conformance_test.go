@@ -8,8 +8,8 @@ import (
 
 	"github.com/santhosh-tekuri/jsonschema/v5"
 
-	sduiv1 "github.com/mosaic-media/sdui/gen/mosaic/sdui/v1"
-	"github.com/mosaic-media/sdui/sdui"
+	sduiv1 "github.com/mosaic-media/contracts/gen/mosaic/sdui/v1"
+	"github.com/mosaic-media/contracts/sdui"
 )
 
 // These tests keep schema/sdui.schema.json honest for the parts still expressed

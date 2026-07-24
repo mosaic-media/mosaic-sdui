@@ -22,7 +22,7 @@ package mosaic.auth.v1;
 
 import "google/protobuf/timestamp.proto";
 
-option go_package = "github.com/mosaic-media/sdui/gen/mosaic/auth/v1;authv1";
+option go_package = "github.com/mosaic-media/contracts/gen/mosaic/auth/v1;authv1";
 
 // AuthService mints and revokes sessions. Both calls are unary: there is
 // nothing to push before a client has a session to push to.

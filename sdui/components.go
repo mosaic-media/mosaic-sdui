@@ -2,7 +2,7 @@ package sdui
 
 // The standard-component type names — the vocabulary a producer emits and a
 // client renders from the shared definition library (../definitions). Screens
-// are authored with the declarative ui layer (github.com/mosaic-media/sdui/ui),
+// are authored with the declarative ui layer (github.com/mosaic-media/contracts/ui),
 // which builds these node types; these constants name them for any code that
 // needs to match on a type.
 

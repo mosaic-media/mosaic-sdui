@@ -163,7 +163,7 @@ func genGo(sp spec) []byte {
 	b.WriteString("// SPDX-FileCopyrightText: 2026 the Mosaic authors\n\n")
 	b.WriteString("package ui\n\n")
 	if len(sp.Tones) > 0 || len(sp.Actions) > 0 {
-		b.WriteString("import \"github.com/mosaic-media/sdui/sdui\"\n\n")
+		b.WriteString("import \"github.com/mosaic-media/contracts/sdui\"\n\n")
 	}
 
 	b.WriteString("// ── components ─────────────────────────────────────────────────────────────\n\n")

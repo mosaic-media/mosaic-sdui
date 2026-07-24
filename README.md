@@ -46,7 +46,7 @@ children, props and slots intermix. `Build()` compiles to the protobuf `UINode`
 the transport carries.
 
 ```go
-import "github.com/mosaic-media/sdui/ui"
+import "github.com/mosaic-media/contracts/ui"
 
 home := ui.Screen(
     ui.Hero("Spirited Away",
@@ -69,17 +69,17 @@ home := ui.Screen(
 The `ui` constructors are **generated** from [`ui.spec.json`](ui.spec.json) by
 [`tools/genui`](tools/genui), which also emits the TypeScript twin and lints the
 spec against the standard definitions (see [Regenerating](#regenerating)). The
-`github.com/mosaic-media/sdui/sdui` package keeps the shared types (`Node`,
+`github.com/mosaic-media/contracts/sdui` package keeps the shared types (`Node`,
 `Action`, the action constructors, tone/type constants).
 
 Add it like any Go module:
 
 ```bash
-go get github.com/mosaic-media/sdui/ui@latest
+go get github.com/mosaic-media/contracts/ui@latest
 ```
 
 For local work across the sibling repos, use a
-`replace github.com/mosaic-media/sdui => ../sdui` in the consumer's
+`replace github.com/mosaic-media/contracts => ../sdui` in the consumer's
 `go.mod` instead.
 
 ## Using it — a TypeScript client

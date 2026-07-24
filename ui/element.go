@@ -21,8 +21,8 @@ import (
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/types/known/structpb"
 
-	sduiv1 "github.com/mosaic-media/sdui/gen/mosaic/sdui/v1"
-	"github.com/mosaic-media/sdui/sdui"
+	sduiv1 "github.com/mosaic-media/contracts/gen/mosaic/sdui/v1"
+	"github.com/mosaic-media/contracts/sdui"
 )
 
 // Node is the compiled, protobuf UI node the transport carries.

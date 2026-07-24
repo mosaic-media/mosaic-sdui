@@ -27,7 +27,7 @@ import (
 	connect "connectrpc.com/connect"
 	context "context"
 	errors "errors"
-	v1 "github.com/mosaic-media/sdui/gen/mosaic/auth/v1"
+	v1 "github.com/mosaic-media/contracts/gen/mosaic/auth/v1"
 	http "net/http"
 	strings "strings"
 )

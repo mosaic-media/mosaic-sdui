@@ -11,7 +11,7 @@
 package sdui
 
 import (
-	sduiv1 "github.com/mosaic-media/sdui/gen/mosaic/sdui/v1"
+	sduiv1 "github.com/mosaic-media/contracts/gen/mosaic/sdui/v1"
 )
 
 // Node is a UI node — a pointer to the generated protobuf UINode (protobuf

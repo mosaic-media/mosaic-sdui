@@ -6,7 +6,7 @@ package ui_test
 import (
 	"testing"
 
-	"github.com/mosaic-media/sdui/ui"
+	"github.com/mosaic-media/contracts/ui"
 )
 
 // TestDeclarativeTreeBuilds proves the widget-tree authoring compiles to the

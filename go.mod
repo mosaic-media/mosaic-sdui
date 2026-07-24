@@ -1,4 +1,4 @@
-module github.com/mosaic-media/sdui
+module github.com/mosaic-media/contracts
 
 go 1.25.0
 

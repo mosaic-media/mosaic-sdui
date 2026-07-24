@@ -16,7 +16,7 @@ package mosaic.sdui.v1;
 
 import "google/protobuf/struct.proto";
 
-option go_package = "github.com/mosaic-media/sdui/gen/mosaic/sdui/v1;sduiv1";
+option go_package = "github.com/mosaic-media/contracts/gen/mosaic/sdui/v1;sduiv1";
 
 // UINode is one element of a server-driven UI tree. `type` is an open
 // vocabulary: a client that does not recognise it renders a placeholder rather

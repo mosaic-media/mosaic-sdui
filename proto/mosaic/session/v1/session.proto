@@ -30,7 +30,7 @@ package mosaic.session.v1;
 
 import "mosaic/sdui/v1/sdui.proto";
 
-option go_package = "github.com/mosaic-media/sdui/gen/mosaic/session/v1;sessionv1";
+option go_package = "github.com/mosaic-media/contracts/gen/mosaic/session/v1;sessionv1";
 
 // SessionService is the live client session. Intents are unary; push is one
 // server-streaming call. Over HTTP/2 both lanes multiplex onto a single

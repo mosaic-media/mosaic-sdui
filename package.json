@@ -34,7 +34,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mosaic-media/sdui.git"
+    "url": "git+https://github.com/mosaic-media/contracts.git"
   },
   "publishConfig": {
     "access": "public"

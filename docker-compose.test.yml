@@ -16,7 +16,7 @@
 # For a shell in the same environment:
 #
 #   docker compose -f docker-compose.test.yml run --rm test bash
-name: mosaic-sdui-test
+name: mosaic-contracts-test
 
 services:
   test:
@@ -29,9 +29,9 @@ services:
       # Caches in volumes, not on the bind mount. The npm cache earns its place
       # here more than most: the generators are fetched with `npx --yes` on
       # every run, and without a warm cache that is a download per invocation.
-      - mosaic-sdui-gomod:/go/pkg/mod
-      - mosaic-sdui-gobuild:/root/.cache/go-build
-      - mosaic-sdui-npm:/root/.npm
+      - mosaic-contracts-gomod:/go/pkg/mod
+      - mosaic-contracts-gobuild:/root/.cache/go-build
+      - mosaic-contracts-npm:/root/.npm
     # The order .github/workflows/verify.yml runs it in, failing at the first
     # failure. Keep the two in step: this command is what a contributor runs,
     # that workflow is what refuses the push. The leading `git rev-parse` is
@@ -60,6 +60,6 @@ services:
           ts/contract.gen.ts ts/ui_runtime.ts ts/ui.ts
 
 volumes:
-  mosaic-sdui-gomod:
-  mosaic-sdui-gobuild:
-  mosaic-sdui-npm:
+  mosaic-contracts-gomod:
+  mosaic-contracts-gobuild:
+  mosaic-contracts-npm:

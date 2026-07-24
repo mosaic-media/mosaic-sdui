@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"testing"
 
-	"github.com/mosaic-media/sdui/sdui"
+	"github.com/mosaic-media/contracts/sdui"
 )
 
 // TestActionsAreCleanPerKind pins the JSON shape of each Action kind — the

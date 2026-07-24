@@ -34,7 +34,7 @@
 package sessionv1
 
 import (
-	v1 "github.com/mosaic-media/sdui/gen/mosaic/sdui/v1"
+	v1 "github.com/mosaic-media/contracts/gen/mosaic/sdui/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -960,7 +960,7 @@ const file_mosaic_session_v1_session_proto_rawDesc = "" +
 	"\bNavigate\x12\".mosaic.session.v1.NavigateRequest\x1a\x16.mosaic.session.v1.Ack\x12B\n" +
 	"\x06Invoke\x12 .mosaic.session.v1.InvokeRequest\x1a\x16.mosaic.session.v1.Ack\x12F\n" +
 	"\vSubmitInput\x12\x1f.mosaic.session.v1.InputRequest\x1a\x16.mosaic.session.v1.Ack\x12T\n" +
-	"\tSubscribe\x12#.mosaic.session.v1.SubscribeRequest\x1a .mosaic.session.v1.ServerMessage0\x01B>Z<github.com/mosaic-media/sdui/gen/mosaic/session/v1;sessionv1b\x06proto3"
+	"\tSubscribe\x12#.mosaic.session.v1.SubscribeRequest\x1a .mosaic.session.v1.ServerMessage0\x01B>Z<github.com/mosaic-media/contracts/gen/mosaic/session/v1;sessionv1b\x06proto3"
 
 var (
 	file_mosaic_session_v1_session_proto_rawDescOnce sync.Once
