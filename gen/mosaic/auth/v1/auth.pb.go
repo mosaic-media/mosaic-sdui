@@ -378,7 +378,7 @@ const file_mosaic_auth_v1_auth_proto_rawDesc = "" +
 	"\rauth_strength\x18\a \x01(\tR\fauthStrength2\xa2\x01\n" +
 	"\vAuthService\x12G\n" +
 	"\x06SignIn\x12\x1d.mosaic.auth.v1.SignInRequest\x1a\x1e.mosaic.auth.v1.SignInResponse\x12J\n" +
-	"\aSignOut\x12\x1e.mosaic.auth.v1.SignOutRequest\x1a\x1f.mosaic.auth.v1.SignOutResponseB8Z6github.com/mosaic-media/contracts/gen/mosaic/auth/v1;authv1b\x06proto3"
+	"\aSignOut\x12\x1e.mosaic.auth.v1.SignOutRequest\x1a\x1f.mosaic.auth.v1.SignOutResponseB=Z;github.com/mosaic-media/contracts/gen/mosaic/auth/v1;authv1b\x06proto3"
 
 var (
 	file_mosaic_auth_v1_auth_proto_rawDescOnce sync.Once

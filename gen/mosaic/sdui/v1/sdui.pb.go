@@ -645,7 +645,7 @@ const file_mosaic_sdui_v1_sdui_proto_rawDesc = "" +
 	"\x15ACTION_KIND_PLAY_PART\x10\b\x12\x15\n" +
 	"\x11ACTION_KIND_TOAST\x10\t\x12\x18\n" +
 	"\x14ACTION_KIND_SEQUENCE\x10\n" +
-	"B8Z6github.com/mosaic-media/contracts/gen/mosaic/sdui/v1;sduiv1b\x06proto3"
+	"B=Z;github.com/mosaic-media/contracts/gen/mosaic/sdui/v1;sduiv1b\x06proto3"
 
 var (
 	file_mosaic_sdui_v1_sdui_proto_rawDescOnce sync.Once
